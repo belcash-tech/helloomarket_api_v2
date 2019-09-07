@@ -3,6 +3,11 @@ const rp = require('request-promise-native')
 const URL='https://helloomarket.com/api/getAllProducts.php'
 const options = {url: URL, method:'get', json: true}
 const _self = module.exports = {
+    categories: async() => {
+        let categories = await _self.all_category_products()
+        let sanitized = await categories.filter(cat => delete cat.products)
+        return sanitized
+    },
     all_products: async() => {
         let categories = await _self.all_category_products()
         // let products = await _self.objectifier(categories)

@@ -7,6 +7,19 @@ const Product = require('./products')
 const PORT = process.env.PORT || 9940
 app.use(bodyParser.json())
 
+app.get('/categories', (req, res) => {
+  Product.categories()
+    .then(categories => {
+      res.status(200).json({
+        status: 'SUCCESS',
+        message: `Found a total of ${categories.length} categories`,
+        data: categories
+      })
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+})
 app.get('/products',(req,res)=> {
   Product.all_products()
   .then(products => {
