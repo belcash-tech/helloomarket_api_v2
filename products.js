@@ -8,6 +8,28 @@ const _self = module.exports = {
         let sanitized = await categories.filter(cat => delete cat.products)
         return sanitized
     },
+    find_category: async (category_id) => {
+        let categories = await _self.categories()
+        let category_response = {}
+        await categories.filter(category => {
+            if(category.category_id === category_id){
+                category_response=category
+                return category_response
+            }
+        })
+        return category_response
+    },
+    find_products_in_category: async (category_id) => {
+        let categories = await _self.all_category_products()
+        let category_response = {}
+        await categories.filter(category => {
+            if(category.category_id === category_id){
+                category_response=category
+                return category_response
+            }
+        })
+        return category_response
+    },
     all_products: async() => {
         let categories = await _self.all_category_products()
         // let products = await _self.objectifier(categories)
