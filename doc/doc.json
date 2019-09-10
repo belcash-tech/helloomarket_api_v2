@@ -1,0 +1,306 @@
+{
+  "info": {
+    "title": "v2",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "[Specification JSON](/api-spec)"
+  },
+  "tags": [
+    {"name": "Categories"},
+    {"name": "Products"}
+  ],
+  "paths": {
+    "/categories": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "/categories",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "SUCCESS"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Found a total of 11 categories"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "category_id": {
+                        "type": "string"
+                      },
+                      "image": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "name_am": {
+                        "type": [
+                          "null",
+                          "string"
+                        ]
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "description_am": {
+                        "type": [
+                          "null",
+                          "string"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "category_id",
+                      "image",
+                      "name",
+                      "name_am",
+                      "description",
+                      "description_am"
+                    ]
+                  },
+                  "example": [
+                    {
+                      "category_id": "70",
+                      "image": "catalog/333.jpg",
+                      "name": "Shoes",
+                      "name_am": null,
+                      "description": "",
+                      "description_am": null
+                    },
+                    {
+                      "category_id": "63",
+                      "image": "catalog/01.png",
+                      "name": "Traditional Clothes",
+                      "name_am": "ባሕላዊ ልብስ",
+                      "description": "Traditional clothes for women and men. Trousers, shirts, sweaters, skirts and scarves woven from cotton threads.",
+                      "description_am": "የሴት፣የወንድ፣የህጻናት የባህል አልባሳት"
+                    },
+                    {
+                      "category_id": "61",
+                      "image": "catalog/leather products.jpg",
+                      "name": "Leather Products",
+                      "name_am": "የቆዳ ውጤቶች",
+                      "description": "Original leather products.",
+                      "description_am": "የተለያዩ የቆዳ ውጤቶች"
+                    },
+                    {
+                      "category_id": "62",
+                      "image": "catalog/imageedit_13_8248957388.png",
+                      "name": "Jewelry",
+                      "name_am": null,
+                      "description": "Jewelries, Bracelets, Necklaces and more.",
+                      "description_am": null
+                    },
+                    {
+                      "category_id": "60",
+                      "image": "catalog/coffee.jpg",
+                      "name": "Ethiopian Coffee",
+                      "name_am": "የኢትዮጵያ ቡና",
+                      "description": "An organic coffee from the land of origin of coffee.",
+                      "description_am": "የተቆላና የተፈጨ የኢትዮጵያ ቡና"
+                    },
+                    {
+                      "category_id": "65",
+                      "image": "catalog/spices herbs.jpg",
+                      "name": "Spices and Herbs",
+                      "name_am": "ቅመማ ቅመም",
+                      "description": "Culturally prepared/processed spices and herbs",
+                      "description_am": "የተለያዩ ቅመማ ቅመሞች"
+                    },
+                    {
+                      "category_id": "66",
+                      "image": "catalog/WALL DECOR-I00125.png",
+                      "name": "Wall Decor",
+                      "name_am": null,
+                      "description": "Traditional decorations to be hung on walls",
+                      "description_am": null
+                    },
+                    {
+                      "category_id": "67",
+                      "image": "catalog/clothes.jpg",
+                      "name": "Clothes",
+                      "name_am": "አልባሳት",
+                      "description": "Cotton clothes for kids and adults",
+                      "description_am": "የተለያዩ አልባሳት"
+                    },
+                    {
+                      "category_id": "68",
+                      "image": "catalog/detergents.png",
+                      "name": "Detergents",
+                      "name_am": "የፈሳሽ ሳሙና ምርቶች",
+                      "description": "Liquid soap and multi-purpose detergents",
+                      "description_am": "ለጽዳት የሚያገለግሉ ፈሳሽ ሳሙናዎች"
+                    },
+                    {
+                      "category_id": "69",
+                      "image": "catalog/cosmetics_collection.jpg",
+                      "name": "Cosmetics",
+                      "name_am": "የውበት መገልገያ ዕቃዎች",
+                      "description": "Cosmetic products, synthetic and human hair",
+                      "description_am": "የተፈጥሮ ፀጉሮች፣የከንፈር ቀለሞችና የመዋብያ ዕቃዎች"
+                    },
+                    {
+                      "category_id": "64",
+                      "image": "catalog/bags.jpg",
+                      "name": "Bags",
+                      "name_am": "ቦርሳዎች",
+                      "description": "Women and men shoulder bags, cosmetic bags and laptop bags.",
+                      "description_am": "የተለያዩ ቦርሳዎች"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "/categories/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "SUCCESS"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Found category with id : 64"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "category_id": {
+                      "type": "string",
+                      "example": "64"
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": "catalog/bags.jpg"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Bags"
+                    },
+                    "name_am": {
+                      "type": "string",
+                      "example": "ቦርሳዎች"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Women and men shoulder bags, cosmetic bags and laptop bags."
+                    },
+                    "description_am": {
+                      "type": "string",
+                      "example": "የተለያዩ ቦርሳዎች"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "FAIL"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unable to find category with id: 12"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/categories/{category_id}/products": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "/categories/{category_id}/products",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "/products",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "/products/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "swagger": "2.0"
+}
