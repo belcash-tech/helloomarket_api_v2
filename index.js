@@ -1,50 +1,25 @@
+const PORT = process.env.PORT || 9940
 const path=require('path')
+const _ = require('lodash')
+const Product = require('./products')
 const config = require('dotenv').config({path: path.resolve('./config/.env')}).parsed
+const doc_path = path.resolve('./doc/doc.json')
+
+
 const bodyParser = require('body-parser')
 const express = require('express')
+const expressOasGenerator = require('express-oas-generator')
 const app = express()
-const Product = require('./products')
-// Swagger settings 
-// const expressOasGenerator = require('express-oas-generator')
 // expressOasGenerator.init(app, {})
-const argv = require('minimist')(process.argv.slice(2))
-const subpath = express()
-const doc_path = './doc'
-app.use("/doc", subpath)
-const swagger = require('swagger-node-express').createNew(subpath)
-swagger.setApiInfo({
-  title: "HelloMarket API v2",
-  description: "HelloMarket API for Mobile Application",
-  termsOfServiceUrl: "",
-  contact: "yared.getachew@belcash.com, biniyam.asfaw@belcash.com",
-  license: "MIT",
-  licenseUrl: ""
+
+expressOasGenerator.init(app, function(spec) {
+  _.set(spec, 'info.title', 'HelloMarket API v2')
+  return spec
 })
-app.use(express.static(path.resolve(doc_path)))
-// Swagger settings end
-const PORT = process.env.PORT || 9940
+
 app.use(bodyParser.json())
-// Documentation
-swagger.configureSwaggerPaths('', 'doc', '');
-// Configure the API domain
-const scheme = 'http://'
-const domain = 'localhost';
-if (argv.domain !== undefined) {
-  domain = argv.domain
-} else{
-  console.log('No --domain=xxx specified, taking default hostname "localhost".')
-}
 
-// Set and display the application URL
-const applicationUrl = scheme + domain + ':' + PORT
-console.log('snapJob API running on ' + applicationUrl)
-swagger.configure(applicationUrl, '1.0.0')
 
-app.get('/', (req, res) => {
-  console.log('hit')
-  res.sendFile(__dirname + `${doc_path}/index.html`)
-})
-// Documentation end
 app.get('/categories', (req, res) => {
   Product.categories()
   .then(categories => {
