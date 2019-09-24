@@ -1,3 +1,4 @@
 node_modules
 config/.env
 doc/swagger-ui/
+locals
