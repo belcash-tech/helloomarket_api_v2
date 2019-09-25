@@ -3,6 +3,7 @@ const path=require('path')
 const _ = require('lodash')
 const Product = require('./products')
 const config = require('dotenv').config({path: path.resolve('./config/.env')}).parsed
+const DbLogic = require('./data/DbLogic')
 const doc_path = path.resolve('./doc/doc.json')
 
 
@@ -116,6 +117,27 @@ app.get('/products/:id',(req,res)=> {
   .catch(err => {
     res.status(500).json(err)
   })
+})
+app.get('/changed/categories', (req, res) => {
+  let since_date = req.query.since
+  DbLogic.categories_changed_since(since_date)
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+
+})
+app.get('/changed/products', (req, res) => {
+  let since_date = req.query.since
+  DbLogic.products_changed_since(since_date)
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
 })
 
 
