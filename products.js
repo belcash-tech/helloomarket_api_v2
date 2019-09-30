@@ -63,7 +63,9 @@ const _self = module.exports = {
             ps.map(p => { 
                 let pg=Object.assign({},cat);
                 delete pg.products
-                p.category=pg; 
+	        p.category_id=pg.category_id;
+                p.category=pg;
+	        
             }); 
             products=products.concat(ps)
         }
