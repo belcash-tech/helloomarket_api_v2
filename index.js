@@ -2,6 +2,7 @@ const PORT = process.env.PORT || 9940
 const path=require('path')
 const _ = require('lodash')
 const Product = require('./products')
+const Agent = require('./agents')
 const config = require('dotenv').config({path: path.resolve('./config/.env')}).parsed
 const DbLogic = require('./data/DbLogic')
 const doc_path = path.resolve('./doc/doc.json')
@@ -140,6 +141,23 @@ app.get('/changed/products', (req, res) => {
     })
 })
 
+app.get('/agents', (req, res) => {
+  // console.log(req.query)
+  if (req.query.hasOwnProperty('agent_id')) {
+    let agent_id = req.query.agent_id
+    Agent.find_agent(agent_id)
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        res.status(500).json(err)
+      })
+  } else {
+    res.status(400).json({
+      message: 'agent_id parameter needs to be passed'
+    })
+  }
+})
 
 app.listen(PORT,()=>{
   console.log(`Server listening on PORT : ${PORT}`)
