@@ -140,7 +140,17 @@ app.get('/changed/products', (req, res) => {
       res.status(500).json(err)
     })
 })
-
+app.get('/agents/:agent_id', (req, res) => {
+  // console.log(req.query)
+  let agent_id = req.params['agent_id']
+  Agent.find_agent(agent_id)
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+})
 app.get('/agents', (req, res) => {
   // console.log(req.query)
   if (req.query.hasOwnProperty('agent_id')) {
