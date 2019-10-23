@@ -123,10 +123,18 @@ app.get('/changed/categories', (req, res) => {
   let since_date = req.query.since
   DbLogic.categories_changed_since(since_date)
     .then(data => {
-      res.status(200).json(data)
+      res.status(200).json({
+      status: 'SUCCESS',
+      message: `Found a total of ${data.length} categories`,
+      data_size: data.length,
+      data: data})
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({
+        status: 'FAILED',
+        message: err.message,
+        data: null
+      })
     })
 
 })
@@ -134,10 +142,18 @@ app.get('/changed/products', (req, res) => {
   let since_date = req.query.since
   DbLogic.products_changed_since(since_date)
     .then(data => {
-      res.status(200).json(data)
+      res.status(200).json({
+        status: 'SUCCESS',
+        message: `Found a total of ${data.length} products`,
+        data_size: data.length,
+        data: data})
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({
+        status: 'FAILED',
+        message: err.message,
+        data: null
+      })
     })
 })
 app.get('/agents/:agent_id', (req, res) => {
