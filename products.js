@@ -2,6 +2,8 @@
 const rp = require('request-promise-native')
 const URL='https://helloomarket.com/api/getAllProducts.php'
 const options = {url: URL, method:'get', json: true}
+const _image_url='https://helloomarket.com/image'
+const _base_url ='https://helloomarket.com'
 const _self = module.exports = {
     categories: async() => {
         let categories = await _self.all_category_products()
@@ -31,9 +33,9 @@ const _self = module.exports = {
         return category_response
     },
     all_products: async() => {
-        let categories = await _self.all_category_products()
+        let category_products = await _self.all_category_products()
         // let products = await _self.objectifier(categories)
-        let products = await _self.flatten(categories)
+        let products = await _self.flatten(category_products)
         return products
     },
     all_category_products: () => {
@@ -51,7 +53,10 @@ const _self = module.exports = {
         let categories = await _self.all_category_products()
         let products = await _self.objectifier(categories)
         if(products.hasOwnProperty(product_id)){
-            return products[product_id]
+	    let product = products[product_id]
+	    product.thumbnail=product.image.split('/')[1]
+	    product.thumbnail=[_base_url,'media/300',product.thumbnail].join('/')
+            return product
         }else {
             return {}
         }
@@ -65,6 +70,7 @@ const _self = module.exports = {
                 delete pg.products
 	        p.category_id=pg.category_id;
                 p.category=pg;
+		p.thumbnail=[_base_url,'media/300',p.image.split('/')[1]].join('/')
 	        
             }); 
             products=products.concat(ps)
