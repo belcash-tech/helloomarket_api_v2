@@ -23,7 +23,6 @@ module.exports = {
 		p.thumbnail=p.image.split('/')[1];
 		p.thumbnail=[_base_url,'media/300',p.thumbnail].join('/');
 	    });
-	    console.log(rows)
             return rows
         } catch (error) {
             console.log(error)
