@@ -86,6 +86,7 @@ app.get('/categories/:category_id/products',(req, res) => {
 app.get('/products',(req,res)=> {
   Product.all_products()
   .then(products => {
+    console.log(products.length);
     res.status(200).json({
       status: 'SUCCESS',
       message: `Found a total of ${products.length} products`,
@@ -141,6 +142,7 @@ app.get('/changed/products', (req, res) => {
   let since_date = req.query.since
   DbLogic.products_changed_since(since_date)
     .then(data => {
+      console.log(data)
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${data.length} products`,
