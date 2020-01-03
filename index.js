@@ -21,7 +21,6 @@ expressOasGenerator.init(app, function(spec) {
 
 app.use(bodyParser.json())
 
-
 app.get('/categories', (req, res) => {
   Product.categories()
   .then(categories => {
