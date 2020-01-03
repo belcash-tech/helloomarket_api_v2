@@ -87,6 +87,7 @@ app.get('/categories/:category_id/products',(req, res) => {
 app.get('/products',(req,res)=> {
   Product.all_products()
   .then(products => {
+    console.log(products.length);
     res.status(200).json({
       status: 'SUCCESS',
       message: `Found a total of ${products.length} products`,
