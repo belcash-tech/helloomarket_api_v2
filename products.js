@@ -75,8 +75,7 @@ const _self = module.exports = {
         p.category=pg;
         p.thumbnail=[_base_url,'media/300',p.image.split('/')[1]].join('/')
         
-      }); 
-      console.log(ps)
+      });
       products=products.concat(ps)
     }
     return products
