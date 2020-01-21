@@ -22,7 +22,8 @@ expressOasGenerator.init(app, function(spec) {
 app.use(bodyParser.json())
 
 app.get('/categories', (req, res) => {
-  Product.categories()
+  //Product.categories()
+  DbLogic.categories()
   .then(categories => {
     res.status(200).json({
       status: 'SUCCESS',
@@ -162,6 +163,7 @@ app.get('/recent/products', (req, res) => {
   DbLogic.recent_products()
     .then(data => {
       console.log(data)
+      data.map(d => d.description=d.description.replace(/&lt;(.)*&gt;/gim,'').replace(/(&amp;)/gim,' and ').replace(/(&nbsp;)*/gim,'').replace(/nbsp;/gim,'').replace(/\r?\n|\r/g,'').trim())
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${data.length} products`,
