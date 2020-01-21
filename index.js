@@ -157,6 +157,26 @@ app.get('/changed/products', (req, res) => {
       })
     })
 })
+app.get('/recent/products', (req, res) => {
+  let since_date = req.query.since
+  DbLogic.recent_products()
+    .then(data => {
+      console.log(data)
+      res.status(200).json({
+        status: 'SUCCESS',
+        message: `Found a total of ${data.length} products`,
+        data_size: data.length,
+        data: data})
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: 'FAILED',
+        message: err.message,
+        data: null
+      })
+    })
+})
+
 app.get('/agents/:agent_id', (req, res) => {
   // console.log(req.query)
   let agent_id = req.params['agent_id']

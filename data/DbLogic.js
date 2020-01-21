@@ -48,5 +48,24 @@ module.exports = {
             console.log(error)
             throw error
         }
+    },
+    recent_products: async () => {
+       try {
+          let query=`select * from view_product_changes order by product_created_at desc limit 10;`
+          let PoolPromise = mysql.createPool({
+                connectionLimit: config.DB_CONNECTION_LIMIT,
+                host: config.DB_HOSTNAME,
+                port: config.DB_PORT,
+                user: config.DB_USERNAME,
+                password: config.DB_PASSWORD, 
+                database: config.DB_DATABASE
+          })
+          let pool = PoolPromise.promise()
+          let [rows, fields] = await pool.query(query)
+          return rows          
+       }catch (error) {
+         console.log(error)
+         throw error
+       }
     }
 }
