@@ -53,6 +53,7 @@ app.get('/categories', (req, res) => {
   //Product.categories()
   DbLogic.categories()
     .then(categories => {
+      
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${categories.length} categories`,
