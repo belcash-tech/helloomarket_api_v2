@@ -53,6 +53,7 @@ app.get('/categories', (req, res) => {
   //Product.categories()
   DbLogic.categories()
     .then(categories => {
+      
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${categories.length} categories`,
@@ -67,7 +68,7 @@ app.get('/categories/:id', (req, res) => {
   let id = req.params['id'];
   Product.find_category(id)
     .then(category => {
-      console.log(id, Object.entries(category));
+      //console.log(id, Object.entries(category));
       if (Object.entries(category).length === 0) {
         res.status(404).json({
           status: 'FAIL',
@@ -171,7 +172,7 @@ app.get('/changed/products', (req, res) => {
   let since_date = req.query.since;
   DbLogic.products_changed_since(since_date)
     .then(data => {
-      console.log(data);
+      //console.log(data);
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${data.length} products`,
@@ -191,8 +192,6 @@ app.get('/recent/products', (req, res) => {
   let since_date = req.query.since;
   DbLogic.recent_products()
     .then(data => {
-      console.log(data);
-      
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${data.length} products`,
