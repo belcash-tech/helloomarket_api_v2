@@ -28,15 +28,15 @@ const _self = (module.exports = {
       if (category.category_id === category_id) {
         category_products = category;
         category_products.products.map(k => {
-	  k.product_id = parseInt(k.product_id)
+	  //k.product_id = parseInt(k.product_id)
 	  k.quantity = parseInt(k.quantity)
-	  k.manufacturer_id = parseInt(k.manufacturer_id)
-	  k.category_id = parseInt(category.category_id)
+	  //k.manufacturer_id = parseInt(k.manufacturer_id)
+	  //k.category_id = parseInt(category.category_id)
           k.thumbnail = [_base_url, 'media/300', k.image.split('/')[1]].join(
             '/'
           );
         });
-	category_products.category_id = parseInt(category_products.category_id)
+	//category_products.category_id = parseInt(category_products.category_id)
         return category_products;
       }
     });
@@ -64,9 +64,9 @@ const _self = (module.exports = {
     let products = await _self.objectifier(categories);
     if (products.hasOwnProperty(product_id)) {
       let product = products[product_id];
-      product.product_id = parseInt(product.product_id)
-      product.category_id = parseInt(product.category_id)
-      product.manufacturer_id = parseInt(product.manufacturer_id)
+      //product.product_id = parseInt(product.product_id)
+      //product.category_id = parseInt(product.category_id)
+      //product.manufacturer_id = parseInt(product.manufacturer_id)
       product.quantity = parseInt(product.quantity)
       product.thumbnail = product.image.split('/')[1];
       product.thumbnail = [_base_url, 'media/300', product.thumbnail].join('/');
@@ -82,10 +82,10 @@ const _self = (module.exports = {
       ps.map(p => {
         let pg = Object.assign({}, cat);
         delete pg.products;
-        p.category_id = parseInt(pg.category_id);
-        p.product_id = parseInt(p.product_id);
-        pg.category_id = parseInt(pg.category_id);
-	p.manufacturer_id = parseInt(p.manufacturer_id);
+        //p.category_id = parseInt(pg.category_id);
+        //p.product_id = parseInt(p.product_id);
+        //pg.category_id = parseInt(pg.category_id);
+	//p.manufacturer_id = parseInt(p.manufacturer_id);
 	p.quantity = parseInt(p.quantity)
         p.category = pg;
         p.thumbnail = [_base_url, 'media/300', p.image.split('/')[1]].join('/');

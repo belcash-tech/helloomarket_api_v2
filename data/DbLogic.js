@@ -5,6 +5,8 @@ const bluebird = require('bluebird')
 const _util = require('underscore')
 const htmlReplacePattern = /<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi
 const _base_url= 'https://helloomarket.com'
+const VAT_RATE=0.15
+const VAT_RATE_DIVIDER=1.15
 //=[_base_url,'media/300',product.thumbnail].join('/')
 module.exports = {
     products: async () => {
@@ -62,11 +64,21 @@ module.exports = {
                 p.thumbnail=[_base_url,'media/300',p.thumbnail].join('/');
             });
 	    rows.map(c => {
+		c.category_id = c.category_id.toString();
+		c.product_id = c.product_id.toString();
+		c.price_before_vat = parseFloat(c.price.toFixed(2));
+		c.vat = parseFloat((c.price*VAT_RATE).toFixed(2));
+		c.price = parseFloat((VAT_RATE_DIVIDER*c.price).toFixed(2));
+		c.manufacturer_id = c.manufacturer_id.toString();
                 c.description = (_util.unescape(c.description)).replace(htmlReplacePattern, '')
-                .replace(/(&amp)/gim, ' and ')
-                .replace(/(&nbsp;)*/gim, '')
-                .replace(/\r?\n|\r/g, '')
-                .trim()
+                	.replace(/(&amp)/gim, ' and ')
+                	.replace(/(&nbsp;)*/gim, '')
+               		.replace(/\r?\n|\r/g, '')
+           	     	.trim();
+		//c.price = parseFloat(parseFloat(c.price).toFixed(2))
+	    	//c.price_before_vat = parseFloat((c.price/VAT_RATE_DIVIDER).toFixed(2))
+	    	//c.vat = parseFloat(((c.price)*(3/23)).toFixed(2))
+
             })
 
             return rows
@@ -95,6 +107,7 @@ module.exports = {
             let pool = PoolPromise.promise()
             let [rows, fields] = await pool.query(query)
 	    rows.map(c => {
+		c.category_id = c.category_id.toString();
                 c.description = (_util.unescape(c.description)).replace(htmlReplacePattern, '')
                 .replace(/(&amp)/gim, ' and ')
                 .replace(/(&nbsp;)*/gim, '')
@@ -123,6 +136,7 @@ module.exports = {
             let pool = PoolPromise.promise()
             let [rows, fields] = await pool.query(query)
             rows.map(c => {
+		c.category_id = c.category_id.toString();
                 c.description = (_util.unescape(c.description)).replace(htmlReplacePattern, '')
                 .replace(/(&amp)/gim, ' and ')
                 .replace(/(&nbsp;)*/gim, '')
@@ -149,17 +163,26 @@ module.exports = {
         })
         let pool = PoolPromise.promise()
         let [rows, fields] = await pool.query(query)
-        rows.map(
-            d => 
-            d.description = (_util.unescape(d.description)
-            .replace(htmlReplacePattern, ''))
-            .replace(/(&nbsp;)/gim, ' ')
-            .replace(/(nbsp;)/gim, ' ')
-            .replace(/(nbsp)/gim, ' ')
-            .replace(/\r?\n|\r/g, '')
-            .replace(/\S+/, ' ')
-            .trim()
-        );
+        rows.map(d => {
+	    console.log(d);
+	    d.product_id = d.product_id.toString();
+	    d.category_id = d.category_id.toString();
+	    d.manufacturer_id = d.manufacturer_id.toString();
+            d.description = (_util.unescape(d.description).replace(htmlReplacePattern, ''))
+            	.replace(/(&nbsp;)/gim, ' ')
+            	.replace(/(nbsp;)/gim, ' ')
+            	.replace(/(nbsp)/gim, ' ')
+            	.replace(/\r?\n|\r/g, '')
+            	.replace(/\S+/, ' ')
+            	.trim();
+	    //d.price = parseFloat(parseFloat(d.price).toFixed(2))
+	    //d.price_before_vat = parseFloat((d.price/VAT_RATE_DIVIDER).toFixed(2))
+	    //d.vat = parseFloat(((d.price)*(3/23)).toFixed(2))
+	    d.price_before_vat = parseFloat(d.price);
+	    d.vat = parseFloat((d.price*VAT_RATE).toFixed(2));
+	    d.price = parseFloat((VAT_RATE_DIVIDER*d.price).toFixed(2));
+
+        });
         return rows          
     }catch (error) {
         console.log(error)
