@@ -3,7 +3,9 @@ const path = require('path');
 const _ = require('lodash');
 const Product = require('./products');
 const Agent = require('./agents');
-const config = require('dotenv').config({ path: path.resolve('./config/.env') })
+const config = require('dotenv').config({
+    path: path.resolve('./config/.env')
+  })
   .parsed;
 const DbLogic = require('./data/DbLogic');
 const doc_path = path.resolve('./doc/doc.json');
@@ -53,7 +55,7 @@ app.get('/categories', (req, res) => {
   //Product.categories()
   DbLogic.categories()
     .then(categories => {
-      
+
       res.status(200).json({
         status: 'SUCCESS',
         message: `Found a total of ${categories.length} categories`,
@@ -89,7 +91,12 @@ app.get('/categories/:id', (req, res) => {
 });
 app.get('/categories/:category_id/products', (req, res) => {
   let category_id = req.params['category_id'];
-  let response = { status: null, code: null, message: null, data: null };
+  let response = {
+    status: null,
+    code: null,
+    message: null,
+    data: null
+  };
   Product.find_products_in_category(category_id)
     .then(category_products => {
       if (Object.keys(category_products).length === 0) {
@@ -111,6 +118,20 @@ app.get('/categories/:category_id/products', (req, res) => {
       response.code = 500;
       response.message = `We encountered an internal server problem. ${err.message}`;
       res.status(500).json(response);
+    });
+});
+app.get('/awesome', (req, res) => {
+  DbLogic.products()
+    .then(products => {
+      console.log(products.length);
+      res.status(200).json({
+        status: 'SUCCESS',
+        message: `Found a total of ${products.length} products`,
+        data: products
+      });
+    })
+    .catch(err => {
+      res.status(500).json(err);
     });
 });
 app.get('/products', (req, res) => {
@@ -148,6 +169,23 @@ app.get('/products/:id', (req, res) => {
     .catch(err => {
       res.status(500).json(err);
     });
+});
+app.get('/slider', (req, res) => {
+  Product.slider_images().then(data => {
+    res.status(200).json({
+      status: 'SUCCESS',
+      message: `Found a total of ${data.length} categories`,
+      data_size: data.length,
+      data: data
+    });
+  })
+  .catch(err => {
+    res.status(500).json({
+      status: 'FAILED',
+      message: err.message,
+      data: null
+    });
+  });
 });
 app.get('/changed/categories', (req, res) => {
   let since_date = req.query.since;

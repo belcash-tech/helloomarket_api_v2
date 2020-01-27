@@ -1,6 +1,11 @@
 const rp = require('request-promise-native');
 const URL = 'https://helloomarket.com/api/getAllProducts.php';
-const options = { url: URL, method: 'get', json: true };
+const SLIDES_URL = 'https://helloomarket.com/api/getBannerProducts.php';
+const options = {
+  url: URL,
+  method: 'get',
+  json: true
+};
 const _image_url = 'https://helloomarket.com/image';
 const _base_url = 'https://helloomarket.com';
 const _self = (module.exports = {
@@ -15,7 +20,7 @@ const _self = (module.exports = {
     await categories.filter(category => {
       if (category.category_id === category_id) {
         category_response = category;
-	category_response.category_id = parseInt(category_response.category_id)
+        category_response.category_id = parseInt(category_response.category_id)
         return category_response;
       }
     });
@@ -28,15 +33,15 @@ const _self = (module.exports = {
       if (category.category_id === category_id) {
         category_products = category;
         category_products.products.map(k => {
-	  //k.product_id = parseInt(k.product_id)
-	  k.quantity = parseInt(k.quantity)
-	  //k.manufacturer_id = parseInt(k.manufacturer_id)
-	  //k.category_id = parseInt(category.category_id)
+          //k.product_id = parseInt(k.product_id)
+          k.quantity = parseInt(k.quantity)
+          //k.manufacturer_id = parseInt(k.manufacturer_id)
+          //k.category_id = parseInt(category.category_id)
           k.thumbnail = [_base_url, 'media/300', k.image.split('/')[1]].join(
             '/'
           );
         });
-	//category_products.category_id = parseInt(category_products.category_id)
+        //category_products.category_id = parseInt(category_products.category_id)
         return category_products;
       }
     });
@@ -75,6 +80,21 @@ const _self = (module.exports = {
       return {};
     }
   },
+  slider_images: async () => {
+    try {
+      let image_options = {
+        url: SLIDES_URL,
+        method: 'GET',
+        json: true
+      }
+      let slideshow = await rp(image_options)
+      console.log(slideshow)
+      return slideshow.result
+    } catch (error) {
+      console.log('SLIDESHOW_ERROR: ', error)
+      throw error;
+    }
+  },
   flatten: categories => {
     let products = [];
     for (cat of categories) {
@@ -85,8 +105,8 @@ const _self = (module.exports = {
         //p.category_id = parseInt(pg.category_id);
         //p.product_id = parseInt(p.product_id);
         //pg.category_id = parseInt(pg.category_id);
-	//p.manufacturer_id = parseInt(p.manufacturer_id);
-	p.quantity = parseInt(p.quantity)
+        //p.manufacturer_id = parseInt(p.manufacturer_id);
+        p.quantity = parseInt(p.quantity)
         p.category = pg;
         p.thumbnail = [_base_url, 'media/300', p.image.split('/')[1]].join('/');
       });
@@ -98,8 +118,7 @@ const _self = (module.exports = {
     let products = await _self.flatten(categories);
     // const uTable = users.reduce((acc, it) => (acc[it.id] = it, acc), {})
     let id_products = await products.reduce(
-      (acc, it) => ((acc[it.product_id] = it), acc),
-      {}
+      (acc, it) => ((acc[it.product_id] = it), acc), {}
     );
     return id_products;
   }

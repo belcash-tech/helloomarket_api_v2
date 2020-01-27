@@ -49,7 +49,8 @@ const _self = module.exports = {
     },
     products: async () => {
         try {
-            let query = `SELECT * FROM view_normalized_products`
+            // let query = `SELECT * FROM view_normalized_products`
+            let query = `select vnp.*, pj.categories from view_normalized_products vnp inner join view_product_categories_json pj on vnp.product_id = pj.product_id`
             // console.log(query)
             let PoolPromise = mysql.createPool(poolConfig)
             let pool = PoolPromise.promise()
@@ -59,6 +60,8 @@ const _self = module.exports = {
                 p.thumbnail = [_base_url, 'media/300', p.thumbnail].join('/');
             });
             rows.map(c => {
+                // console.log(c.categories);
+
                 c.description = (_util.unescape(c.description)).replace(htmlReplacePattern, '')
                     .replace(/(&amp)/gim, ' and ')
                     .replace(/(&nbsp;)*/gim, '')
