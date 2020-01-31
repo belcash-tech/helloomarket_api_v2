@@ -51,6 +51,10 @@ const _self = (module.exports = {
     let category_products = await _self.all_category_products();
     // let products = await _self.objectifier(categories)
     let products = await _self.flatten(category_products);
+    products.map(p => { 
+	p.thumbnail = [_base_url, 'media/300', p.image.split('/')[1]].join('/');
+
+    });
     return products;
   },
   all_category_products: () => {

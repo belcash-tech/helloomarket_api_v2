@@ -169,6 +169,9 @@ const _self = module.exports = {
                 d.product_id = d.product_id.toString();
                 d.category_id = d.category_id.toString();
                 d.manufacturer_id = d.manufacturer_id.toString();
+		d.thumbnail = d.image.split('/')[1];
+                d.thumbnail = [_base_url, 'media/300', d.thumbnail].join('/');
+
                 d.description = (_util.unescape(d.description).replace(htmlReplacePattern, ''))
                     .replace(/(&nbsp;)/gim, ' ')
                     .replace(/(nbsp;)/gim, ' ')
