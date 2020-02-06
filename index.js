@@ -274,6 +274,57 @@ app.get('/agents', (req, res) => {
     });
   }
 });
+app.get('/bestselling/products', (req, res) => {
+  Promise.resolve([]).then(data => {
+    if(data.length === 0){
+      res.status(200).json({
+        status: 'NO_CONTENT',
+	message: 'There are no records currently. Please try again later',
+	data_size: data.length,
+	data: data
+      })
+    }else {
+      res.status(200).json({
+        status: 'SUCCESS',
+	message: `Found ${data.length} records`,
+	data_size: data.length,
+	data: data
+      })     
+    }
+  })
+  .catch(err => {
+    res.status(500).json({
+      status: 'FAILED',
+      message: err.message,
+      data: null
+    });
+  });
+});
+app.get('/discounted/products', (req, res) => {
+  Promise.resolve([]).then(data => {
+    if(data.length === 0){
+      res.status(200).json({
+        status: 'NO_CONTENT',
+	message: 'There are no records currently. Please try again later',
+	data_size: data.length,
+	data: data
+      })
+    }else {
+      res.status(200).json({
+        status: 'SUCCESS',
+	message: `Found ${data.length} records`,
+	data: data
+      })     
+    }
+  })
+  .catch(err => {
+    res.status(500).json({
+      status: 'FAILED',
+      message: err.message,
+      data: null
+    });
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT : ${PORT}`);
