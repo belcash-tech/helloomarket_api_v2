@@ -32,6 +32,7 @@
     "lodash": "^4.17.15",
     "minimist": "*",
     "morgan": "^1.9.1",
+    "mysql-connection-pool-manager": "1.5.9",
     "mysql2": "^1.7.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",
