@@ -231,7 +231,7 @@ const _self = module.exports = {
                 .replace(/\S+/, ' ')
                 .trim();
           });
-
+          console.log(Object.keys(pool))
           return rows;
       } catch (error) {
           console.log(error)
