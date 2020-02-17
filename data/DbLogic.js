@@ -169,9 +169,8 @@ const _self = module.exports = {
                 d.product_id = d.product_id.toString();
                 d.category_id = d.category_id.toString();
                 d.manufacturer_id = d.manufacturer_id.toString();
-		d.thumbnail = d.image.split('/')[1];
+		            d.thumbnail = d.image.split('/')[1];
                 d.thumbnail = [_base_url, 'media/300', d.thumbnail].join('/');
-
                 d.description = (_util.unescape(d.description).replace(htmlReplacePattern, ''))
                     .replace(/(&nbsp;)/gim, ' ')
                     .replace(/(nbsp;)/gim, ' ')
@@ -185,5 +184,58 @@ const _self = module.exports = {
             console.log(error)
             throw error
         }
+    },
+    bestselling_products: async(count=10) => {
+      try {
+          let query = `select * from view_normalized_products order by RAND() limit ${count};`
+          let PoolPromise = mysql.createPool(poolConfig)
+          let pool = PoolPromise.promise()
+          let [rows, fields] = await pool.query(query)
+          rows.map(d => {
+            d.manufacturer_id = d.manufacturer_id.toString();
+            d.thumbnail = d.image.split('/')[1];
+            d.thumbnail = [_base_url, 'media/300', d.thumbnail].join('/');
+            d.description = (_util.unescape(d.description).replace(htmlReplacePattern, ''))
+                .replace(/(&nbsp;)/gim, ' ')
+                .replace(/(nbsp;)/gim, ' ')
+                .replace(/(nbsp)/gim, ' ')
+                .replace(/\r?\n|\r/g, '')
+                .replace(/\S+/, ' ')
+                .trim();
+          })
+          return rows;
+      } catch (error) {
+          console.log(error)
+          throw error
+      }
+
+    },
+    discounted_products: async(count=10) => {
+      try {
+          let query = `select * from view_normalized_products order by RAND() limit ${count};`
+          let PoolPromise = mysql.createPool(poolConfig)
+          let pool = PoolPromise.promise()
+          let [rows, fields] = await pool.query(query)
+          rows.map(d => {
+            d.discount = {
+              rate: parseFloat(Math.random().toFixed(2))
+            };
+            d.manufacturer_id = d.manufacturer_id.toString();
+            d.thumbnail = d.image.split('/')[1];
+            d.thumbnail = [_base_url, 'media/300', d.thumbnail].join('/');
+            d.description = (_util.unescape(d.description).replace(htmlReplacePattern, ''))
+                .replace(/(&nbsp;)/gim, ' ')
+                .replace(/(nbsp;)/gim, ' ')
+                .replace(/(nbsp)/gim, ' ')
+                .replace(/\r?\n|\r/g, '')
+                .replace(/\S+/, ' ')
+                .trim();
+          });
+
+          return rows;
+      } catch (error) {
+          console.log(error)
+          throw error
+      }
     }
 }

@@ -275,7 +275,7 @@ app.get('/agents', (req, res) => {
   }
 });
 app.get('/bestselling/products', (req, res) => {
-  Promise.resolve([]).then(data => {
+  DbLogic.bestselling_products().then(data => {
     if(data.length === 0){
       res.status(200).json({
         status: 'NO_CONTENT',
@@ -301,7 +301,7 @@ app.get('/bestselling/products', (req, res) => {
   });
 });
 app.get('/discounted/products', (req, res) => {
-  Promise.resolve([]).then(data => {
+  DbLogic.discounted_products().then(data => {
     if(data.length === 0){
       res.status(200).json({
         status: 'NO_CONTENT',
