@@ -1,6 +1,7 @@
 const rp = require('request-promise-native');
 const URL = 'https://helloomarket.com/api/getAllProducts.php';
 const SLIDES_URL = 'https://helloomarket.com/api/getBannerProducts.php';
+const DbLogic  = require('./data/DbLogic')
 const options = {
   url: URL,
   method: 'get',
@@ -68,20 +69,38 @@ const _self = (module.exports = {
         });
     });
   },
+  // find_product: async product_id => {
+  //   let categories = await _self.all_category_products();
+  //   let products = await _self.objectifier(categories);
+  //   if (products.hasOwnProperty(product_id)) {
+  //     let product = products[product_id];
+  //     //product.product_id = parseInt(product.product_id)
+  //     //product.category_id = parseInt(product.category_id)
+  //     //product.manufacturer_id = parseInt(product.manufacturer_id)
+  //     product.quantity = parseInt(product.quantity)
+  //     product.thumbnail = product.image.split('/')[1];
+  //     product.thumbnail = [_base_url, 'media/300', product.thumbnail].join('/');
+  //     return product;
+  //   } else {
+  //     return {};
+  //   }
+  // },
   find_product: async product_id => {
-    let categories = await _self.all_category_products();
-    let products = await _self.objectifier(categories);
-    if (products.hasOwnProperty(product_id)) {
-      let product = products[product_id];
-      //product.product_id = parseInt(product.product_id)
-      //product.category_id = parseInt(product.category_id)
-      //product.manufacturer_id = parseInt(product.manufacturer_id)
-      product.quantity = parseInt(product.quantity)
-      product.thumbnail = product.image.split('/')[1];
-      product.thumbnail = [_base_url, 'media/300', product.thumbnail].join('/');
-      return product;
-    } else {
-      return {};
+    try {
+      let product = await DbLogic.find_product_by_id(product_id)
+      return product
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
+  find_product_by_model: async product_model => {
+    try {
+      let product = await DbLogic.find_product_by_model(product_model)
+      return product
+    } catch (error) {
+      console.log(error)
+      throw error
     }
   },
   slider_images: async () => {

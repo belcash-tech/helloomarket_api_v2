@@ -170,6 +170,28 @@ app.use((req, res, next) => {
         res.status(500).json(err);
       });
     });
+    app.get('/products/model/:model', (req, res) => {
+      let model = req.params['model'];
+      Product.find_product_by_model(model)
+      .then(product => {
+        if (Object.keys(product).length === 0) {
+          res.status(404).json({
+            status: 'FAIL',
+            message: `Unable to find product with model: ${model}`,
+            data: {}
+          });
+        } else {
+          res.status(200).json({
+            status: 'SUCCESS',
+            message: `Found product with id : ${model}`,
+            data: product
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+    });
     app.get('/slider', (req, res) => {
       Product.slider_images().then(data => {
         res.status(200).json({
