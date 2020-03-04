@@ -103,6 +103,34 @@ const _self = module.exports = {
       throw error
     }
   },
+  products_with_categories: async () => {
+    try {
+      // let query = `SELECT * FROM view_normalized_products`
+      let query="select p.*, vpc.categories from view_normalized_products p inner join view_product_categories_json vpc on p.product_id=vpc.product_id order by p.product_id"
+      // console.log(query)
+      let PoolPromise = mysql.createPool(poolConfig)
+      let pool = PoolPromise.promise()
+      let [rows, fields] = await pool.query(query)
+      rows.map((p) => {
+        p.thumbnail = p.image.split('/')[1];
+        p.thumbnail = [_base_url, 'media/300', p.thumbnail].join('/');
+      });
+      rows.map(c => {
+        // console.log(c.categories);        
+        c.description = (_util.unescape(c.description)).replace(htmlReplacePattern, '')
+        .replace(/(&amp)/gim, ' and ')
+        .replace(/(&nbsp;)*/gim, '')
+        .replace(/\r?\n|\r/g, '')
+        .trim()
+      })
+      await PoolPromise.end()
+      return rows
+    } catch (error) {
+      await PoolPromise.end()
+      console.log(error)
+      throw error
+    }
+  },
   products_changed_since: async (since) => {
     try {
       let today = Date.now()
