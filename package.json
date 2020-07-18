@@ -29,7 +29,7 @@
     "express-winston": "^3.4.0",
     "http-status": "^1.4.0",
     "knex": "^0.20.8",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "minimist": "*",
     "morgan": "^1.9.1",
     "mysql-connection-pool-manager": "1.5.9",
