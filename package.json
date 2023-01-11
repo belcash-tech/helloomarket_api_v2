@@ -28,7 +28,7 @@
     "express-oas-generator": "^1.0.13",
     "express-winston": "^3.4.0",
     "http-status": "^1.4.0",
-    "knex": "^0.20.8",
+    "knex": "^2.4.0",
     "lodash": "^4.17.15",
     "minimist": "*",
     "morgan": "^1.9.1",
